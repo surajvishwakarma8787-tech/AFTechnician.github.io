@@ -1,0 +1,339 @@
+import React, { useState } from "react";
+import { Booking } from "@/entities/Booking";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar, Clock, User, Phone, MapPin, CheckCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+export default function BookingPage() {
+  const [formData, setFormData] = useState({
+    customer_name: "",
+    contact_number: "",
+    email: "",
+    service_type: "",
+    ac_type: "",
+    address: "",
+    preferred_date: "",
+    preferred_time: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      await Booking.create(formData);
+      setShowSuccess(true);
+      setFormData({
+        customer_name: "",
+        contact_number: "",
+        email: "",
+        service_type: "",
+        ac_type: "",
+        address: "",
+        preferred_date: "",
+        preferred_time: "",
+        message: ""
+      });
+      
+      // Send WhatsApp message
+      const message = `New Service Request from ${formData.customer_name}\nService: ${formData.service_type}\nContact: ${formData.contact_number}\nAddress: ${formData.address}`;
+      window.open(`https://wa.me/919876543210?text=${encodeURIComponent(message)}`, '_blank');
+      
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+    }
+    
+    setIsSubmitting(false);
+  };
+
+  const serviceTypes = [
+    { value: "installation", label: "AC Installation" },
+    { value: "repair", label: "AC Repair" },
+    { value: "maintenance", label: "AC Maintenance" },
+    { value: "consultation", label: "Consultation" }
+  ];
+
+  const acTypes = [
+    { value: "split", label: "Split AC" },
+    { value: "window", label: "Window AC" },
+    { value: "central", label: "Central AC" },
+    { value: "portable", label: "Portable AC" },
+    { value: "cassette", label: "Cassette AC" }
+  ];
+
+  const timeSlots = [
+    "9:00 AM - 11:00 AM",
+    "11:00 AM - 1:00 PM", 
+    "1:00 PM - 3:00 PM",
+    "3:00 PM - 5:00 PM",
+    "5:00 PM - 7:00 PM",
+    "Emergency (24/7)"
+  ];
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
+        <Card className="max-w-md w-full mx-4">
+          <CardContent className="p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Booking Confirmed!</h2>
+            <p className="text-gray-600 mb-6">
+              Your service request has been submitted successfully. Our team will contact you shortly to confirm the appointment.
+            </p>
+            <Button 
+              onClick={() => setShowSuccess(false)}
+              className="w-full bg-blue-600 hover:bg-blue-700"
+            >
+              Book Another Service
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Book Your AC Service</h1>
+          <p className="text-xl text-gray-600">
+            Fill out the form below and our expert technicians will contact you
+          </p>
+        </div>
+
+        {/* Emergency Contact */}
+        <Alert className="mb-8 border-red-200 bg-red-50">
+          <Phone className="h-4 w-4 text-red-600" />
+          <AlertDescription className="text-red-800">
+            <strong>Emergency Service:</strong> Need immediate assistance? Call us at{" "}
+            <a href="tel:+919876543210" className="font-semibold underline">+91 98765 43210</a>
+          </AlertDescription>
+        </Alert>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Booking Form */}
+          <div className="lg:col-span-2">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-blue-600" />
+                  Service Booking Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Customer Information */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="customer_name" className="flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Full Name *
+                      </Label>
+                      <Input
+                        id="customer_name"
+                        value={formData.customer_name}
+                        onChange={(e) => handleInputChange("customer_name", e.target.value)}
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contact_number" className="flex items-center gap-2">
+                        <Phone className="w-4 h-4" />
+                        Contact Number *
+                      </Label>
+                      <Input
+                        id="contact_number"
+                        value={formData.contact_number}
+                        onChange={(e) => handleInputChange("contact_number", e.target.value)}
+                        placeholder="+91 98765 43210"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+
+                  {/* Service Details */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Service Type *</Label>
+                      <Select value={formData.service_type} onValueChange={(value) => handleInputChange("service_type", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select service type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {serviceTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>AC Type</Label>
+                      <Select value={formData.ac_type} onValueChange={(value) => handleInputChange("ac_type", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select AC type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {acTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Address */}
+                  <div className="space-y-2">
+                    <Label htmlFor="address" className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4" />
+                      Service Address *
+                    </Label>
+                    <Textarea
+                      id="address"
+                      value={formData.address}
+                      onChange={(e) => handleInputChange("address", e.target.value)}
+                      placeholder="Enter complete address with landmarks"
+                      className="h-24"
+                      required
+                    />
+                  </div>
+
+                  {/* Scheduling */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="preferred_date" className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Preferred Date
+                      </Label>
+                      <Input
+                        id="preferred_date"
+                        type="date"
+                        value={formData.preferred_date}
+                        onChange={(e) => handleInputChange("preferred_date", e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        Preferred Time
+                      </Label>
+                      <Select value={formData.preferred_time} onValueChange={(value) => handleInputChange("preferred_time", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select time slot" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {timeSlots.map((slot) => (
+                            <SelectItem key={slot} value={slot}>
+                              {slot}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Additional Message */}
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Additional Details</Label>
+                    <Textarea
+                      id="message"
+                      value={formData.message}
+                      onChange={(e) => handleInputChange("message", e.target.value)}
+                      placeholder="Any specific requirements or issues you'd like us to know..."
+                      className="h-24"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 hover:bg-blue-700 py-4 text-lg font-semibold"
+                  >
+                    {isSubmitting ? "Submitting..." : "Book Service Now"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Contact Information */}
+          <div className="space-y-6">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-blue-600">Contact Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium">Phone</p>
+                    <p className="text-gray-600">+91 98765 43210</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium">Service Hours</p>
+                    <p className="text-gray-600">24/7 Emergency Service</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <p className="font-medium">Service Area</p>
+                    <p className="text-gray-600">Delhi NCR</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg bg-blue-50 border-blue-200">
+              <CardContent className="p-6">
+                <h3 className="font-bold text-blue-900 mb-3">Quick Response Guarantee</h3>
+                <ul className="space-y-2 text-sm text-blue-800">
+                  <li>✓ Same day service available</li>
+                  <li>✓ Emergency response within 30 minutes</li>
+                  <li>✓ Free estimates and consultation</li>
+                  <li>✓ 1 year service warranty</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

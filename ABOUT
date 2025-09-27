@@ -1,0 +1,210 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Shield, Users, Clock, Award, CheckCircle, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
+
+export default function About() {
+  const stats = [
+    { number: "500+", label: "Happy Customers" },
+    { number: "5+", label: "Years Experience" },
+    { number: "24/7", label: "Emergency Service" },
+    { number: "100%", label: "Customer Satisfaction" }
+  ];
+
+  const values = [
+    {
+      icon: Shield,
+      title: "Quality Service",
+      description: "We use only genuine parts and follow industry best practices for all our services."
+    },
+    {
+      icon: Users,
+      title: "Expert Technicians",
+      description: "Our certified technicians are trained to handle all major AC brands and models."
+    },
+    {
+      icon: Clock,
+      title: "Timely Service",
+      description: "We respect your time and ensure prompt service delivery as per schedule."
+    },
+    {
+      icon: Award,
+      title: "Warranty Coverage",
+      description: "All our services come with comprehensive warranty for your peace of mind."
+    }
+  ];
+
+  const services = [
+    "Split AC Installation & Repair",
+    "Window AC Installation & Repair", 
+    "Central AC System Installation",
+    "Portable AC Services",
+    "Cassette AC Installation",
+    "AC Maintenance & Cleaning",
+    "Gas Filling & Leak Repair",
+    "Compressor Repair & Replacement",
+    "PCB Repair Services",
+    "Emergency AC Repair"
+  ];
+
+  return (
+    <div className="py-8">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-50 to-cyan-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                About AF Air Condition
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed mb-8">
+                Your trusted partner for professional air conditioning services in Delhi NCR. 
+                We provide expert installation, repair, and maintenance services with a commitment 
+                to quality and customer satisfaction.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to={createPageUrl("Booking")}>
+                  <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-3 font-semibold">
+                    Book Service Now
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline"
+                  onClick={() => window.open("tel:+919876543210", "_self")}
+                  className="px-8 py-3 font-semibold"
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call Us
+                </Button>
+              </div>
+            </div>
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+                alt="Professional AC Service"
+                className="rounded-2xl shadow-xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-4xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                <div className="text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Our Story</h2>
+            <div className="text-lg text-gray-600 leading-relaxed space-y-6">
+              <p>
+                AF Air Condition was founded with a simple mission: to provide reliable, 
+                professional air conditioning services to homes and businesses across Delhi NCR. 
+                With over 5 years of experience in the industry, we have built a reputation 
+                for excellence and customer satisfaction.
+              </p>
+              <p>
+                Our team of certified technicians is passionate about keeping you comfortable. 
+                We stay updated with the latest technology and techniques to ensure your AC 
+                systems run efficiently and last longer. Whether it's a routine maintenance 
+                or an emergency repair, we're here to help.
+              </p>
+              <p>
+                What sets us apart is our commitment to transparency, quality service, and 
+                fair pricing. We believe in building long-term relationships with our customers 
+                by delivering consistent, professional service every time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Us</h2>
+            <p className="text-lg text-gray-600">Our core values that drive everything we do</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <value.icon className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                  <p className="text-gray-600">{value.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services List */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">Complete AC Solutions</h2>
+              <div className="grid gap-3">
+                {services.map((service, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <span className="text-gray-700">{service}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="AC Services"
+                className="rounded-2xl shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="py-16 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to Experience Professional AC Service?</h2>
+          <p className="text-xl mb-8 opacity-90">
+            Join hundreds of satisfied customers who trust AF Air Condition for their cooling needs
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to={createPageUrl("Booking")}>
+              <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 font-semibold">
+                Book Service
+              </Button>
+            </Link>
+            <Button 
+              variant="outline"
+              onClick={() => window.open("tel:+919876543210", "_self")}
+              className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 font-semibold"
+            >
+              Call: +91 98765 43210
+            </Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

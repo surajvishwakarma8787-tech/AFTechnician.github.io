@@ -1,0 +1,38 @@
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { createPageUrl } from "@/utils";
+import { Snowflake, Phone, MessageCircle, Home, Wrench, Star, Info } from "lucide-react";
+
+export default function Layout({ children, currentPageName }) {
+  const location = useLocation();
+
+  const navigationItems = [
+    { name: "Home", path: createPageUrl("Home"), icon: Home },
+    { name: "Services", path: createPageUrl("Services"), icon: Wrench },
+    { name: "Book Now", path: createPageUrl("Booking"), icon: Snowflake },
+    { name: "Feedback", path: createPageUrl("Feedback"), icon: Star },
+    { name: "About", path: createPageUrl("About"), icon: Info }
+  ];
+
+  const handleCall = () => {
+    window.open("tel:+919321066039", "_self");
+  };
+
+  const handleWhatsApp = () => {
+    window.open("https://wa.me/919321066039?text=Hello, I need AC service", "_blank");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <style>{`
+        :root {
+          --primary: #0369a1;
+          --primary-dark: #1e40af;
+          --secondary: #06b6d4;
+          --accent: #f0f9ff;
+        }
+      `}</style>
+      
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b border-blue-100 sticky top-0 z-50">
+ 

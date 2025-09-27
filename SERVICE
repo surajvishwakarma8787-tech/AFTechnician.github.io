@@ -1,0 +1,232 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Snowflake, Wind, Building, Smartphone, Grid3x3, ArrowRight } from "lucide-react";
+
+export default function Services() {
+  const acTypes = [
+    {
+      id: "split",
+      name: "Split AC",
+      icon: Snowflake,
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      description: "Most popular choice for homes and offices. Energy efficient and quiet operation.",
+      features: ["Energy Efficient", "Quiet Operation", "Remote Control", "Timer Function"],
+      priceRange: "₹25,000 - ₹60,000"
+    },
+    {
+      id: "window",
+      name: "Window AC",
+      icon: Wind,
+      image: "https://images.unsplash.com/photo-1585208798174-6cedd86e019a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80",
+      description: "Compact and affordable cooling solution for small to medium rooms.",
+      features: ["Compact Design", "Easy Installation", "Cost Effective", "Low Maintenance"],
+      priceRange: "₹15,000 - ₹35,000"
+    },
+    {
+      id: "central",
+      name: "Central AC",
+      icon: Building,
+      image: "https://images.unsplash.com/photo-1504253163759-c23fccaebb55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      description: "Perfect for large homes and commercial spaces with multiple rooms.",
+      features: ["Whole Building Cooling", "Energy Efficient", "Even Temperature", "Professional Installation"],
+      priceRange: "₹1,50,000 - ₹5,00,000"
+    },
+    {
+      id: "portable",
+      name: "Portable AC",
+      icon: Smartphone,
+      image: "https://images.unsplash.com/photo-1614961234441-8b3f0c3ea3da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+      description: "Mobile cooling solution that can be moved from room to room.",
+      features: ["Portable Design", "No Installation", "Flexible Placement", "Instant Cooling"],
+      priceRange: "₹20,000 - ₹45,000"
+    },
+    {
+      id: "cassette",
+      name: "Cassette AC",
+      icon: Grid3x3,
+      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+      description: "Ceiling-mounted units ideal for offices and commercial spaces.",
+      features: ["360° Air Flow", "Space Saving", "Professional Look", "Even Cooling"],
+      priceRange: "₹40,000 - ₹80,000"
+    }
+  ];
+
+  const services = [
+    {
+      title: "Installation Service",
+      description: "Professional installation with proper mounting, electrical connections, and testing.",
+      price: "₹2,000 - ₹5,000",
+      duration: "2-4 hours",
+      includes: ["Site survey", "Mounting & fitting", "Electrical connections", "Testing & commissioning"]
+    },
+    {
+      title: "Repair Service",
+      description: "Quick diagnosis and repair of AC problems with genuine spare parts.",
+      price: "₹500 - ₹3,000",
+      duration: "1-2 hours",
+      includes: ["Problem diagnosis", "Repair work", "Parts replacement", "Performance testing"]
+    },
+    {
+      title: "Maintenance Service",
+      description: "Regular maintenance to keep your AC running efficiently and extend its life.",
+      price: "₹800 - ₹1,500",
+      duration: "1 hour",
+      includes: ["Filter cleaning", "Coil cleaning", "Gas pressure check", "Performance optimization"]
+    },
+    {
+      title: "Emergency Service",
+      description: "24/7 emergency repair service for urgent AC problems.",
+      price: "₹1,000 - ₹4,000",
+      duration: "30 minutes response",
+      includes: ["Immediate response", "Emergency repair", "Temporary solutions", "Follow-up service"]
+    }
+  ];
+
+  return (
+    <div className="py-8">
+      {/* Header */}
+      <section className="bg-gradient-to-r from-blue-50 to-cyan-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Our AC Services & Types
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Complete range of air conditioning solutions for homes and businesses
+          </p>
+        </div>
+      </section>
+
+      {/* AC Types */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Types of Air Conditioners</h2>
+            <p className="text-lg text-gray-600">Choose the perfect AC type for your space</p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {acTypes.map((ac) => (
+              <Card key={ac.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div className="grid md:grid-cols-2">
+                  <div className="aspect-square md:aspect-auto">
+                    <img 
+                      src={ac.image} 
+                      alt={ac.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <CardHeader className="p-0 mb-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <ac.icon className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <CardTitle className="text-xl">{ac.name}</CardTitle>
+                      </div>
+                      <p className="text-gray-600">{ac.description}</p>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="mb-4">
+                        <h4 className="font-semibold text-gray-900 mb-2">Features:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {ac.features.map((feature, index) => (
+                            <li key={index} className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm text-gray-500">Price Range</p>
+                          <p className="font-bold text-blue-600">{ac.priceRange}</p>
+                        </div>
+                        <Link to={createPageUrl("Booking")}>
+                          <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                            Book Now
+                          </Button>
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Types */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Professional Services</h2>
+            <p className="text-lg text-gray-600">Expert care for all your AC needs</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-8">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
+                    <div className="text-right">
+                      <p className="font-bold text-blue-600">{service.price}</p>
+                      <p className="text-sm text-gray-500">{service.duration}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mb-6">{service.description}</p>
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-gray-900 mb-3">Service Includes:</h4>
+                    <ul className="space-y-2">
+                      {service.includes.map((item, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <Link to={createPageUrl("Booking")}>
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                      Book This Service
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6">Need Expert AC Service?</h2>
+          <p className="text-xl mb-8 opacity-90">
+            Our certified technicians are ready to help with professional installation, repair, and maintenance
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to={createPageUrl("Booking")}>
+              <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 font-semibold">
+                Book Service Now
+              </Button>
+            </Link>
+            <Button 
+              variant="outline"
+              onClick={() => window.open("tel:+919876543210", "_self")}
+              className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 font-semibold"
+            >
+              Call: +91 932106 6039
+            </Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
